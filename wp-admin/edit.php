@@ -13,6 +13,14 @@ use Mpdf\Mpdf;
 require_once __DIR__ . '/admin.php';
 
 /**
+ * Includes the Composer autoload file for the MPDF library, which is used for generating PDF files.
+ *
+ * This line of code ensures that the necessary classes and functions from the MPDF library are available for use in the plugin.
+ */
+require_once EL_PLUGIN_INC . 'ticket/mpdf/vendor/autoload.php';
+require_once EL_PLUGIN_INC . 'ticket/class-el-pdf.php';
+
+/**
  * @global string $typenow The post type of the current screen.
  */
 global $typenow;
@@ -219,8 +227,9 @@ if ( $doaction ) {
 			}
 			break;
 		case 'print':
-			/*$mpdf = new Mpdf();
-			 foreach ( (array) $post_ids as $post_id ) {
+			$pdf_url = ( new EL_PDF )->make_pdf_ticket($post_ids[0]);
+			/* $mpdf = new Mpdf();
+			foreach ( (array) $post_ids as $post_id ) {
 				$post = get_post($post_id);
 
 				$content = '<h1>' . $post_id . '</h1>';

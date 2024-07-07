@@ -1,7 +1,4 @@
 <?php
-
-use Mpdf\Mpdf;
-
 defined( 'ABSPATH' ) || exit();
 
 if ( ! class_exists( 'EL_PDF' ) ) {
@@ -36,20 +33,21 @@ if ( ! class_exists( 'EL_PDF' ) ) {
 
 			$ticket['color_label_ticket'] = get_post_meta( $ticket_id, OVA_METABOX_EVENT . 'color_label_ticket', true );
 			if ($ticket['color_label_ticket'] == "#fff" || $ticket['color_label_ticket'] == "#ffffff" || empty($ticket['color_label_ticket'])) {
-				$ticket['color_label_ticket'] = '#666666';	
+				$ticket['color_label_ticket'] = '#666666';
 			}
 
 			$ticket['color_content_ticket'] = get_post_meta( $ticket_id, OVA_METABOX_EVENT . 'color_content_ticket', true );
 			if ($ticket['color_content_ticket'] == "#fff" || $ticket['color_content_ticket'] == "#ffffff" || empty($ticket['color_content_ticket'])) {
-				$ticket['color_content_ticket'] = '#333333';	
+				$ticket['color_content_ticket'] = '#333333';
 			}
 
 
 			$ticket['private_desc_ticket'] = get_post_meta( $ticket_id, OVA_METABOX_EVENT . 'private_desc_ticket', true );
-			$ticket['price'] = get_post_meta( $ticket_id, OVA_METABOX_EVENT . 'price', true );
+			// price ticket
+			$ticket['price_ticket'] = get_post_meta( $ticket_id, OVA_METABOX_EVENT . 'price_ticket', true );
 			//sub string
 			$ticket['desc_ticket'] = sub_string_word($desc_ticket, apply_filters( 'el_desc_ticket_characters', 230 ) );
-			
+
 			$ticket['date'] =  date_i18n(get_option('date_format'), $start_time);
 			$ticket['time'] = date_i18n(get_option('time_format'), $start_time) . ' - ' . date_i18n(get_option('time_format'), $end_time);
 
@@ -63,7 +61,14 @@ if ( ! class_exists( 'EL_PDF' ) ) {
 			$ticket['order_info'] = esc_html__( 'Ordered by', 'eventlist' ).' '.$name_customer;
 			// Logo
 			$ticket['logo_url'] = $logo_id ? wp_get_attachment_image_url( $logo_id, 'full' ) : '';
-
+			// Badge URLs
+			$ticket['badge_urls'] = [
+				"https://dev.seniorbarman.com/wp-content/uploads/2024/07/logo3.png",
+				"https://dev.seniorbarman.com/wp-content/uploads/2024/07/logo2.png",
+				"https://dev.seniorbarman.com/wp-content/uploads/2024/07/logo4.png",
+				"https://dev.seniorbarman.com/wp-content/uploads/2024/07/logo5.png",
+				"https://dev.seniorbarman.com/wp-content/uploads/2024/07/logo1.png",
+			];
 			// Extra service
 			$ticket['extra_service'] = el_extra_sv_ticket( $extra_service );
 
@@ -87,20 +92,20 @@ if ( ! class_exists( 'EL_PDF' ) ) {
 			$attach_file = '';
 
 			ob_start();
-				el_get_template( 'pdf/template.php', array( 'ticket' => $ticket ) );
-				$html = ob_get_contents();
+			el_get_template( 'pdf/template.php', array( 'ticket' => $ticket ) );
+			$html = ob_get_contents();
 			ob_get_clean();
 
 			try {
-			    $mpdf = new Mpdf( apply_filters( 'el_config_mpdf', $config_mpdf ) );
+				$mpdf = new \Mpdf\Mpdf( apply_filters( 'el_config_mpdf', $config_mpdf ) );
 				$mpdf->WriteHTML( $html );
 				$attach_file = WP_CONTENT_DIR.'/uploads/event__ticket'.$ticket_id.'.pdf';
 				$mpdf->Output( $attach_file, 'F' );
 			} catch (\Mpdf\MpdfException $e) { // Note: safer fully qualified exception name used for catch
-			    // Process the exception, log, print etc.
-			    echo $e->getMessage();
+				// Process the exception, log, print etc.
+				echo $e->getMessage();
 			}
-			
+
 			return $attach_file;
 		}
 
@@ -127,18 +132,18 @@ if ( ! class_exists( 'EL_PDF' ) ) {
 			}
 
 			if ( ! is_dir( $invoices_dir ) ) {
-	            wp_mkdir_p( $invoices_dir );
-	        }
+				wp_mkdir_p( $invoices_dir );
+			}
 
-	        // PDF invoice name
-	        $pdf_name = apply_filters( 'el_ft_pdf_invoice_name', 'pdf_invoice_'.$booking_id );
-	        $extra_service = get_post_meta( $booking_id, OVA_METABOX_EVENT.'extra_service', true );
-	        // Data
-	        $data = [];
+			// PDF invoice name
+			$pdf_name = apply_filters( 'el_ft_pdf_invoice_name', 'pdf_invoice_'.$booking_id );
+			$extra_service = get_post_meta( $booking_id, OVA_METABOX_EVENT.'extra_service', true );
+			// Data
+			$data = [];
 
-	        ob_start();
-	        	el_get_template( 'pdf/invoice.css');
-				$css = ob_get_contents();
+			ob_start();
+			el_get_template( 'pdf/invoice.css');
+			$css = ob_get_contents();
 			ob_get_clean();
 			$data['css'] = $css;
 
@@ -190,119 +195,15 @@ if ( ! class_exists( 'EL_PDF' ) ) {
 				}
 			}
 
-	        ob_start();
-				el_get_template( 'pdf/invoice.php', array( 'data' => $data ) );
-				$html = ob_get_contents();
-			ob_get_clean();
-
-			try {
-			    $mpdf = new Mpdf( apply_filters( 'el_config_mpdf_invoice', $config_mpdf ) );
-				$mpdf->WriteHTML( $html );
-				$attach_file = WP_CONTENT_DIR.'/uploads/invoices/'.$pdf_name.'.pdf';
-				$mpdf->Output( $attach_file, 'F' );
-			} catch (\Mpdf\MpdfException $e) { // Note: safer fully qualified exception name used for catch
-			    // Process the exception, log, print etc.
-			    echo $e->getMessage();
-			}
-
-			return $attach_file;
-		}
-
-		function create_pdf($post_ids) {
-
-			$ticket_list = [];
-			foreach ($post_ids as $ticket_id) {
-				$ticket = array();
-
-				$start_time = get_post_meta( $ticket_id,  OVA_METABOX_EVENT . 'date_start', true );
-				$end_time = get_post_meta( $ticket_id, OVA_METABOX_EVENT . 'date_end', true );
-				$seat = get_post_meta( $ticket_id, OVA_METABOX_EVENT . 'seat', true );
-				$name_customer = get_post_meta( $ticket_id, OVA_METABOX_EVENT . 'name_customer', true );
-				$desc_ticket = get_post_meta( $ticket_id, OVA_METABOX_EVENT . 'desc_ticket', true );
-				$venue = get_post_meta( $ticket_id, OVA_METABOX_EVENT . 'venue', true );
-				$logo_id = get_post_meta($ticket_id, OVA_METABOX_EVENT . "img", true);
-				$person_type = get_post_meta( $ticket_id, OVA_METABOX_EVENT.'person_type', true );
-				$extra_service = get_post_meta( $ticket_id, OVA_METABOX_EVENT.'extra_service', true );
-
-				// Get info ticket
-				$ticket['ticket_id'] = $ticket_id;
-				$ticket['event_name'] = get_post_meta( $ticket_id, OVA_METABOX_EVENT . 'name_event', true );
-
-				if (is_array($venue)) {
-					$ticket['venue'] = implode(', ',$venue);
-				}
-
-				$ticket['address'] = get_post_meta( $ticket_id, OVA_METABOX_EVENT . 'address', true );
-
-				$ticket['color_border_ticket'] = get_post_meta( $ticket_id, OVA_METABOX_EVENT . 'color_ticket', true );
-				if ($ticket['color_border_ticket'] == "#fff" || $ticket['color_border_ticket'] == "#ffffff" || empty($ticket['color_border_ticket'])) {
-					$ticket['color_border_ticket'] = '#cccccc';
-				}
-
-				$ticket['color_label_ticket'] = get_post_meta( $ticket_id, OVA_METABOX_EVENT . 'color_label_ticket', true );
-				if ($ticket['color_label_ticket'] == "#fff" || $ticket['color_label_ticket'] == "#ffffff" || empty($ticket['color_label_ticket'])) {
-					$ticket['color_label_ticket'] = '#666666';
-				}
-
-				$ticket['color_content_ticket'] = get_post_meta( $ticket_id, OVA_METABOX_EVENT . 'color_content_ticket', true );
-				if ($ticket['color_content_ticket'] == "#fff" || $ticket['color_content_ticket'] == "#ffffff" || empty($ticket['color_content_ticket'])) {
-					$ticket['color_content_ticket'] = '#333333';
-				}
-
-
-				$ticket['private_desc_ticket'] = get_post_meta( $ticket_id, OVA_METABOX_EVENT . 'private_desc_ticket', true );
-				$ticket['price'] = get_post_meta( $ticket_id, OVA_METABOX_EVENT . 'price', true );
-				//sub string
-				$ticket['desc_ticket'] = sub_string_word($desc_ticket, apply_filters( 'el_desc_ticket_characters', 230 ) );
-
-				$ticket['date'] =  date_i18n(get_option('date_format'), $start_time);
-				$ticket['time'] = date_i18n(get_option('time_format'), $start_time) . ' - ' . date_i18n(get_option('time_format'), $end_time);
-
-				$ticket['qrcode_str'] = get_post_meta( $ticket_id, OVA_METABOX_EVENT . 'qr_code', true );
-				$ticket['type_ticket'] = $seat ? get_the_title( $ticket_id ) .' - '. $seat : get_the_title( $ticket_id );
-
-				if ( $person_type ) {
-					$ticket['type_ticket'] .= ' - '.$person_type;
-				}
-
-				$ticket['order_info'] = esc_html__( 'Ordered by', 'eventlist' ).' '.$name_customer;
-				// Logo
-				$ticket['logo_url'] = $logo_id ? wp_get_attachment_image_url( $logo_id, 'full' ) : '';
-
-				// Extra service
-				$ticket['extra_service'] = el_extra_sv_ticket( $extra_service );
-
-				array_push($ticket_list, $ticket);
-			}
-
-			$upload_dir   = wp_upload_dir();
-
-			// Add Font
-			$defaultConfig = (new Mpdf\Config\ConfigVariables())->getDefaults();
-			$fontDirs = $defaultConfig['fontDir'];
-
-			$defaultFontConfig = (new Mpdf\Config\FontVariables())->getDefaults();
-			$fontData = $defaultFontConfig['fontdata'];
-
-
-			$config_mpdf = array(
-				'tempDir' => $upload_dir['basedir'],
-				'default_font_size' => apply_filters( 'el_pdf_font_size_'.apply_filters( 'wpml_current_language', NULL ), 12 ),
-				'default_font' => apply_filters( 'el_pdf_font_'.apply_filters( 'wpml_current_language', NULL ), 'DejaVuSans' ),
-				'fontDir' => array_merge( $fontDirs, array( get_stylesheet_directory() . '/font' ) )
-			);
-
-			$attach_file = '';
-
 			ob_start();
-			el_get_template( 'pdf/template_cell.php', array( 'ticket' => $ticket_list ) );
+			el_get_template( 'pdf/invoice.php', array( 'data' => $data ) );
 			$html = ob_get_contents();
 			ob_get_clean();
 
 			try {
-				$mpdf = new Mpdf( apply_filters( 'el_config_mpdf', $config_mpdf ) );
+				$mpdf = new \Mpdf\Mpdf( apply_filters( 'el_config_mpdf_invoice', $config_mpdf ) );
 				$mpdf->WriteHTML( $html );
-				$attach_file = WP_CONTENT_DIR.'/uploads/event__ticket_list'.time().'.pdf';
+				$attach_file = WP_CONTENT_DIR.'/uploads/invoices/'.$pdf_name.'.pdf';
 				$mpdf->Output( $attach_file, 'F' );
 			} catch (\Mpdf\MpdfException $e) { // Note: safer fully qualified exception name used for catch
 				// Process the exception, log, print etc.
