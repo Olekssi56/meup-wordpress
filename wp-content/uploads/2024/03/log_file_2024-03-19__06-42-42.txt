@@ -1,0 +1,48 @@
+
+---Downloaded files---
+The import files for: Demo Import were successfully downloaded!
+Initial max execution time = 60
+Files info:
+Site URL = https://dev.buildingewealth.com.ng/barman
+Data file = /home/bewng/dev.buildingewealth.com.ng/barman/wp-content/themes/meup/install_resource/demo_import/demo-content.xml
+Widget file = /home/bewng/dev.buildingewealth.com.ng/barman/wp-content/themes/meup/install_resource/demo_import/widgets.wie
+Customizer file = /home/bewng/dev.buildingewealth.com.ng/barman/wp-content/themes/meup/install_resource/demo_import/customize.dat
+Redux files:
+not defined!
+
+------
+New AJAX call!
+
+
+------
+New AJAX call!
+
+
+------
+New AJAX call!
+
+
+------
+New AJAX call!
+[ERROR] Failed to import "woocommerce-placeholder" (Media)
+
+
+---Importing widgets---
+Event Sidebar : 
+
+Image - No Title - Imported
+
+Main Sidebar : 
+
+Custom HTML - No Title - Imported
+Categories - Categories - Imported
+Archives - Archive - Imported
+Tag Cloud - Tags - Imported
+
+
+
+---Importing customizer settings---
+Customizer settings import finished!
+
+---ocdi/after_import---
+

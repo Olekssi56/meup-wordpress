@@ -1,0 +1,20 @@
+[05-May-2024 06:07:04 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function __() in /home/seniorbarman/public_html/wp-admin/includes/file.php:16
+Stack trace:
+#0 {main}
+  thrown in /home/seniorbarman/public_html/wp-admin/includes/file.php on line 16
+[05-May-2024 06:09:42 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function get_locale() in /home/seniorbarman/public_html/wp-admin/includes/admin.php:16
+Stack trace:
+#0 {main}
+  thrown in /home/seniorbarman/public_html/wp-admin/includes/admin.php on line 16
+[05-May-2024 06:12:52 UTC] PHP Fatal error:  Uncaught Error: Class "WP_Filesystem_Base" not found in /home/seniorbarman/public_html/wp-admin/includes/class-wp-filesystem-ssh2.php:36
+Stack trace:
+#0 {main}
+  thrown in /home/seniorbarman/public_html/wp-admin/includes/class-wp-filesystem-ssh2.php on line 36
+[29-May-2024 09:31:19 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function __() in /home/seniorbarman/public_html/wp-admin/includes/file.php:16
+Stack trace:
+#0 {main}
+  thrown in /home/seniorbarman/public_html/wp-admin/includes/file.php on line 16
+[19-Jun-2024 06:28:28 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function get_locale() in /home/seniorbarman/public_html/wp-admin/includes/admin.php:16
+Stack trace:
+#0 {main}
+  thrown in /home/seniorbarman/public_html/wp-admin/includes/admin.php on line 16

@@ -1,0 +1,4 @@
+[05-May-2024 06:13:59 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function add_action() in /home/seniorbarman/public_html/wp-content/plugins/hello.php:69
+Stack trace:
+#0 {main}
+  thrown in /home/seniorbarman/public_html/wp-content/plugins/hello.php on line 69
