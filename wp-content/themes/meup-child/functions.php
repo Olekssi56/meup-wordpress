@@ -42,3 +42,18 @@ function meup_child_scripts() {
 add_filter( 'register_taxonomy_el_1', function ($params){ return array( 'slug' => 'eljob', 'name' => esc_html__( 'Job', 'meup-child' ) ); } );
 
 add_filter( 'register_taxonomy_el_2', function ($params){ return array( 'slug' => 'eltime', 'name' => esc_html__( 'Time', 'meup-child' ) ); } );
+
+function register_print_bulk_action($bulk_actions) {
+	/**
+	 * Adds a custom bulk action to the 'el_tickets' post type edit screen.
+	 *
+	 * This function adds a new bulk action option to the dropdown menu on the 'el_tickets' post type edit screen.
+	 * The custom bulk action is labeled "Custom Bulk Action".
+	 *
+	 * @param array $bulk_actions The existing bulk actions.
+	 * @return array The updated bulk actions array with the new custom action added.
+	 */
+	$bulk_actions['print'] = __('Print', 'textdomain');
+	return $bulk_actions;
+}
+add_filter('bulk_actions-edit-el_tickets', 'register_print_bulk_action'); // Change 'edit-post' to your specific screen ID if necessary
