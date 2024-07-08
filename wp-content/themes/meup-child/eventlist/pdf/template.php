@@ -107,6 +107,7 @@ $ticket = $args['ticket'];
         font-size: 50px;
         font-weight: bold;
         text-align: center;
+        color: <?php echo $ticket['color_label_ticket']; ?>;
     }
 
     .event_name {
