@@ -215,7 +215,7 @@ if ( ! class_exists( 'EL_PDF' ) ) {
 
 		function make_pdf_tickets( $ticket_ids ) {
 			$ticket_list = array();
-			foreach($ticket_ids as $ticket_id) {
+			foreach ( $ticket_ids as $ticket_id ) {
 				$ticket = array();
 
 				$start_time    = get_post_meta( $ticket_id, OVA_METABOX_EVENT . 'date_start', true );
@@ -283,7 +283,7 @@ if ( ! class_exists( 'EL_PDF' ) ) {
 				];
 				// Extra service
 				$ticket['extra_service'] = el_extra_sv_ticket( $extra_service );
-				array_push($ticket_list, $ticket);
+				array_push( $ticket_list, $ticket );
 			}
 
 			$upload_dir = wp_upload_dir();
@@ -300,7 +300,10 @@ if ( ! class_exists( 'EL_PDF' ) ) {
 				'tempDir'           => $upload_dir['basedir'],
 				'default_font_size' => apply_filters( 'el_pdf_font_size_' . apply_filters( 'wpml_current_language', null ), 12 ),
 				'default_font'      => apply_filters( 'el_pdf_font_' . apply_filters( 'wpml_current_language', null ), 'DejaVuSans' ),
-				'fontDir'           => array_merge( $fontDirs, array( get_stylesheet_directory() . '/font' ) )
+				'fontDir'           => array_merge( $fontDirs, array( get_stylesheet_directory() . '/font' ) ),
+				'margin_left'       => 0,
+				'margin_right'      => 0,
+				'margin_top'        => 0,
 			);
 
 			$attach_file = '';
