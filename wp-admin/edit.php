@@ -227,7 +227,7 @@ if ( $doaction ) {
 			}
 			break;
 		case 'print':
-			$pdf_url = ( new EL_PDF )->make_pdf_ticket($post_ids[0]);
+			$pdf_url = ( new EL_PDF )->make_pdf_tickets($post_ids);
 			/* $mpdf = new Mpdf();
 			foreach ( (array) $post_ids as $post_id ) {
 				$post = get_post($post_id);
