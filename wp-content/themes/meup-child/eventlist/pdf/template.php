@@ -34,7 +34,7 @@ $ticket = $args['ticket'];
                 <tr>
                     <td class="date"><?php echo $ticket['date']; ?> // <?php echo $ticket['time']; ?></td>
                 </tr>
-                <br>
+                <br><br>
                 <!-- Logo -->
 				<?php if ( count( $ticket['badge_urls'] ) > 0 ): ?>
                     <tr>
@@ -115,7 +115,7 @@ $ticket = $args['ticket'];
     }
 
     .date {
-        font-size: 13px;
+        font-size: 10px;
         text-align: center;
     }
 
