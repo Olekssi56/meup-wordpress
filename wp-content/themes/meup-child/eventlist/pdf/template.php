@@ -13,7 +13,7 @@ $ticket = $args['ticket'];
                 <tr>
                     <td class="horizontal_center">
                         <barcode code="<?php echo $ticket['qrcode_str']; ?>" type="QR" disableborder="1"
-                                 style="margin: 30px;" size="2.4"/>
+                                 style="margin: 30px;" size="2.2"/>
                     </td>
                 </tr>
             </table>
@@ -83,12 +83,11 @@ $ticket = $args['ticket'];
     .container {
         border: 2px solid <?php echo $ticket['color_border_ticket'] ?>;
         color: <?php echo $ticket['color_label_ticket']; ?>;
-        padding: 40px 40px;
     }
 
     .left {
         width: 300px;
-        padding: 15px;
+        padding: 15px 0 15px 30px;
         justify-content: center;
         align-items: center;
     }
