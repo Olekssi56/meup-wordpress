@@ -9,7 +9,7 @@ $length      = count( $ticket_list );
 		<?php for ( $i = 0; $i < $length; $i += 3 ): ?>
             <tr>
 				<?php foreach ( array_splice( $ticket_list, 0, min( 3, $length - $i ) ) as $ind => $ticket ): ?>
-                    <td style="width: 33%; border-bottom: 1px solid black; border-right: <?= ( $length == $i + (int) $ind + 1 || $ind == 2 ) ? "0" : "1px" ?>  solid black; ">
+                    <td style="width: 33%; max-width: 300px; border-bottom: 1px solid black; border-right: <?= ( $length == $i + (int) $ind + 1 || $ind == 2 ) ? "0" : "1px" ?>  solid black; ">
                         <table class="pdf_content">
                             <tbody>
                             <tr class="container">
