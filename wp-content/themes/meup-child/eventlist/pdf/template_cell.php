@@ -9,7 +9,7 @@ $length      = count( $ticket_list );
 		<?php for ( $i = 0; $i < $length; $i += 3 ): ?>
             <tr>
 				<?php foreach ( array_splice( $ticket_list, 0, min( 3, $length - $i ) ) as $ind => $ticket ): ?>
-                    <td style="width: 33%; border-bottom: 1px solid black; border-right: <?= ($length == $i + (int)$ind  + 1 || $ind == 2) ? "0" : "1px" ?>  solid black; ">
+                    <td style="width: 33%; border-bottom: 1px solid black; border-right: <?= ( $length == $i + (int) $ind + 1 || $ind == 2 ) ? "0" : "1px" ?>  solid black; ">
                         <table class="pdf_content">
                             <tbody>
                             <tr class="container">
@@ -19,11 +19,15 @@ $length      = count( $ticket_list );
                                         <!-- QR code -->
                                         <tr>
                                             <td class="horizontal_center">
-                                                <!--                                            <barcode code="-->
-												<?php //echo $ticket['qrcode_str']; ?><!--" type="QR"-->
-                                                <!--                                                     disableborder="1" size="0.5"/>-->
+                                                <barcode code="<?php echo $ticket['qrcode_str']; ?>" type="QR"
+                                                         disableborder="1"
+                                                         size="0.8"/>
                                             </td>
                                         </tr>
+                                        <br><br>
+                                        <tr><td><div style="height: 50px; width: 100%;"></div></td></tr>
+                                        <br><br>
+                                        <tr><td><div style="height: 50px; width: 100%;"></div></td></tr>
                                     </table>
                                 </td>
                                 <!-- ticket info -->
@@ -109,8 +113,9 @@ $length      = count( $ticket_list );
 
     .left {
         width: 40%;
-        justify-content: center;
-        align-items: center;
+        text-align: center;
+        vertical-align: middle;
+        height: 300px;
     }
 
     .right {
@@ -121,7 +126,7 @@ $length      = count( $ticket_list );
 
     .horizontal_center {
         text-align: center;
-        width: 300px;
+        vertical-align: middle;
     }
 
     .price {
