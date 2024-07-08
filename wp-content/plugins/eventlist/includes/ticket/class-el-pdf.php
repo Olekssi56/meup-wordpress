@@ -306,7 +306,7 @@ if ( ! class_exists( 'EL_PDF' ) ) {
 			$attach_file = '';
 
 			ob_start();
-			el_get_template( 'pdf/template.php', array( 'ticket' => $ticket_list[0] ) );
+			el_get_template( 'pdf/template_cell.php', array( 'ticket' => $ticket_list[0] ) );
 			$html = ob_get_contents();
 			ob_get_clean();
 
