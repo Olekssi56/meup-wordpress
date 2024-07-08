@@ -18,7 +18,7 @@ $ticket_list = $args['tickets'];
                                     <tr>
                                         <td class="horizontal_center">
                                             <barcode code="<?php echo $ticket['qrcode_str']; ?>" type="QR"
-                                                     disableborder="1" size="1"/>
+                                                     disableborder="1" size="0.5"/>
                                         </td>
                                     </tr>
                                 </table>
