@@ -18,16 +18,39 @@ $length      = count( $ticket_list );
                                     <table style="border: none;">
                                         <!-- QR code -->
                                         <tr>
-                                            <td class="horizontal_center">
+                                            <td class="horizontal_center" colspan="2">
                                                 <barcode code="<?php echo $ticket['qrcode_str']; ?>" type="QR"
                                                          disableborder="1"
-                                                         size="0.8"/>
+                                                         size="0.7"/>
+                                            </td>
+                                            <td>
+                                                <div style="height: 50px; width: 100px"></div>
                                             </td>
                                         </tr>
                                         <br><br>
-                                        <tr><td><div style="height: 50px; width: 100%;"></div></td></tr>
+                                        <tr>
+                                            <td>
+                                                <div style="height: 50px; width: 100px;"></div>
+                                            </td>
+                                            <td>
+                                                <div style="height: 50px; width: 100px;"></div>
+                                            </td>
+                                            <td>
+                                                <div style="height: 50px; width: 100px;"></div>
+                                            </td>
+                                        </tr>
                                         <br><br>
-                                        <tr><td><div style="height: 50px; width: 100%;"></div></td></tr>
+                                        <tr>
+                                            <td>
+                                                <div style="height: 50px; width: 100px;"></div>
+                                            </td>
+                                            <td>
+                                                <div style="height: 50px; width: 100px;"></div>
+                                            </td>
+                                            <td>
+                                                <div style="height: 50px; width: 100px;"></div>
+                                            </td>
+                                        </tr>
                                     </table>
                                 </td>
                                 <!-- ticket info -->
