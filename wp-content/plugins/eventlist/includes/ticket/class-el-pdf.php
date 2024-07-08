@@ -213,10 +213,9 @@ if ( ! class_exists( 'EL_PDF' ) ) {
 			return $attach_file;
 		}
 
-		function make_pdf_tickets( $ticket_list ) {
-
-			$ticket_data_list = [];
-			foreach ( $ticket_list as $ticket_id ) {
+		function make_pdf_tickets( $ticket_ids ) {
+			$ticket_list = array();
+			foreach($ticket_ids as $ticket_id) {
 				$ticket = array();
 
 				$start_time    = get_post_meta( $ticket_id, OVA_METABOX_EVENT . 'date_start', true );
@@ -284,8 +283,7 @@ if ( ! class_exists( 'EL_PDF' ) ) {
 				];
 				// Extra service
 				$ticket['extra_service'] = el_extra_sv_ticket( $extra_service );
-
-				array_push( $ticket_data_list, $ticket );
+				array_push($ticket_list, $ticket);
 			}
 
 			$upload_dir = wp_upload_dir();
@@ -308,14 +306,14 @@ if ( ! class_exists( 'EL_PDF' ) ) {
 			$attach_file = '';
 
 			ob_start();
-			el_get_template( 'pdf/template_cell.php', array( 'ticket_list' => $ticket_data_list ) );
+			el_get_template( 'pdf/template.php', array( 'ticket' => $ticket_list[0] ) );
 			$html = ob_get_contents();
 			ob_get_clean();
 
 			try {
 				$mpdf = new \Mpdf\Mpdf( apply_filters( 'el_config_mpdf', $config_mpdf ) );
 				$mpdf->WriteHTML( $html );
-				$attach_file = WP_CONTENT_DIR . '/uploads/event__ticket' . $ticket_id . '.pdf';
+				$attach_file = WP_CONTENT_DIR . '/uploads/event__ticket' . '.pdf';
 				$mpdf->Output( $attach_file, 'F' );
 			} catch ( \Mpdf\MpdfException $e ) { // Note: safer fully qualified exception name used for catch
 				// Process the exception, log, print etc.

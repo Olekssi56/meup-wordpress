@@ -1,7 +1,6 @@
 <?php
 // Get Info ticket
 $ticket_list = $args['ticket_list'];
-$ticket      = $ticket_list[0];
 ?>
 
 <table class="pdf_content">
