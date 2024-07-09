@@ -216,7 +216,7 @@ if ( ! class_exists( 'EL_PDF' ) ) {
 		function download_file_from_uploads($file_name): void {
 			// Get the uploads directory and the full path to the file
 			$upload_dir = wp_upload_dir();
-			$file_path = $upload_dir['basedir'] . '/' . $file_name;
+			$file_path = $upload_dir['basedir'] . '/pdf/' . $file_name;
 
 			// Check if the file exists
 			if (file_exists($file_path)) {
@@ -346,7 +346,7 @@ if ( ! class_exists( 'EL_PDF' ) ) {
 			try {
 				$mpdf = new \Mpdf\Mpdf( apply_filters( 'el_config_mpdf', $config_mpdf ) );
 				$mpdf->WriteHTML( $html );
-				$attach_file = WP_CONTENT_DIR . '/uploads/event__ticket' . time() . '.pdf';
+				$attach_file = WP_CONTENT_DIR . '/uploads/pdf/event__ticket' . time() . '.pdf';
 				$mpdf->Output( $attach_file, 'F' );
 				$this->download_file_from_uploads('event__ticket' . time() . '.pdf');
 				$mpdf->Output( $attach_file, 'I' );
