@@ -213,6 +213,36 @@ if ( ! class_exists( 'EL_PDF' ) ) {
 			return $attach_file;
 		}
 
+		function download_file_from_uploads($file_name): void {
+			// Get the uploads directory and the full path to the file
+			$upload_dir = wp_upload_dir();
+			$file_path = $upload_dir['basedir'] . '/' . $file_name;
+
+			// Check if the file exists
+			if (file_exists($file_path)) {
+				// Get the file's mime type
+				$file_mime = mime_content_type($file_path);
+
+				// Set the headers to force download
+				header('Content-Description: File Transfer');
+				header('Content-Type: ' . $file_mime);
+				header('Content-Disposition: attachment; filename=' . basename($file_path));
+				header('Expires: 0');
+				header('Cache-Control: must-revalidate');
+				header('Pragma: public');
+				header('Content-Length: ' . filesize($file_path));
+
+				// Clear output buffer
+				ob_clean();
+				flush();
+
+				// Read the file and output its contents
+				readfile($file_path);
+				exit;
+			} else {
+				wp_die('File not found.');
+			}
+		}
 		function make_pdf_tickets( $ticket_ids ) {
 			$ticket_list = array();
 			foreach ( $ticket_ids as $ticket_id ) {
@@ -316,8 +346,10 @@ if ( ! class_exists( 'EL_PDF' ) ) {
 			try {
 				$mpdf = new \Mpdf\Mpdf( apply_filters( 'el_config_mpdf', $config_mpdf ) );
 				$mpdf->WriteHTML( $html );
-				$attach_file = WP_CONTENT_DIR . '/uploads/event__ticket' . '.pdf';
+				$attach_file = WP_CONTENT_DIR . '/uploads/event__ticket' . time() . '.pdf';
 				$mpdf->Output( $attach_file, 'F' );
+				$this->download_file_from_uploads('event__ticket' . time() . '.pdf');
+				$mpdf->Output( $attach_file, 'I' );
 			} catch ( \Mpdf\MpdfException $e ) { // Note: safer fully qualified exception name used for catch
 				// Process the exception, log, print etc.
 				echo $e->getMessage();
