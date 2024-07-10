@@ -19,86 +19,98 @@ function extractHours( $timeRange ): string {
 }
 
 ?>
-<table class="pdf_content">
+<table>
     <tbody>
-    <tr class="container">
-        <!-- ticket logo and QR code -->
-        <td class="left">
-            <table style="border: none;">
-                <!-- QR code -->
-                <tr>
-                    <td class="horizontal_center">
-                        <barcode code="<?php echo $ticket['qrcode_str']; ?>" type="QR" disableborder="1"
-                                 size="1.9"/>
-                    </td>
-                </tr>
-            </table>
-        </td>
-        <!-- ticket info -->
-        <td class="right">
-            <table style="border: none; width: 450px" vertical-align="top">
+    <tr>
+        <td>
+            <table class="pdf_content">
                 <tbody>
-                <!-- Price -->
-                <tr>
-                    <td class="price"><span>&#8358;</span><?php echo number_format( $ticket['price_ticket'] ); ?></td>
-                </tr>
-                <!-- Event name -->
-                <tr>
-                    <td class="event_name"><?php echo $ticket['event_name']; ?></td>
-                </tr>
-                <br>
-                <!-- Date and time -->
-                <tr>
-                    <td class="date"><?php echo $ticket['date']; ?>
-                        // <?php echo extractHours( $ticket['time'] ); ?>
+                <tr class="container">
+                    <!-- ticket logo and QR code -->
+                    <td class="left">
+                        <table style="border: none;">
+                            <!-- QR code -->
+                            <tr>
+                                <td class="horizontal_center">
+                                    <barcode code="<?php echo $ticket['qrcode_str']; ?>" type="QR" disableborder="1"
+                                             size="1.7"/>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                    <!-- ticket info -->
+                    <td class="right">
+                        <table style="border: none; width: 450px" vertical-align="top">
+                            <tbody>
+                            <!-- Price -->
+                            <tr>
+                                <td class="price"><span>&#8358;</span><?php echo number_format( $ticket['price_ticket'] ); ?></td>
+                            </tr>
+                            <!-- Event name -->
+                            <tr>
+                                <td class="event_name"><?php echo $ticket['event_name']; ?></td>
+                            </tr>
+                            <br>
+                            <!-- Date and time -->
+                            <tr>
+                                <td class="date"><?php echo $ticket['date']; ?>
+                                    // <?php echo extractHours( $ticket['time'] ); ?>
+                                </td>
+                            </tr>
+                            <br><br>
+                            <!-- Logo -->
+					        <?php if ( count( $ticket['badge_urls'] ) > 0 ): ?>
+                                <tr>
+                                    <td style="vertical-align: center; text-align: center;">
+                                        <table>
+                                            <tr>
+                                                <td><img style="margin-left: 10px" src="<?php echo $ticket['badge_urls'][0]; ?>"
+                                                         alt="Logo 3" width="110px"></td>
+                                                <td>
+                                                    <div>
+												        <?php if ( count( $ticket['badge_urls'] ) > 1 ): ?>
+                                                            <img class="child-logo" src="<?php echo $ticket['badge_urls'][1]; ?>"
+                                                                 alt="Logo 1" width="95">
+												        <?php endif; ?>
+												        <?php if ( count( $ticket['badge_urls'] ) > 2 ): ?>
+                                                            <img class="child-logo" src="<?php echo $ticket['badge_urls'][2]; ?>"
+                                                                 alt="Logo 2" width="95">
+												        <?php endif; ?>
+                                                    </div>
+                                                    <div>
+												        <?php if ( count( $ticket['badge_urls'] ) > 3 ): ?>
+                                                            <img class="child-logo" src="<?php echo $ticket['badge_urls'][3]; ?>"
+                                                                 alt="Logo 4" width="95">
+												        <?php endif; ?>
+												        <?php if ( count( $ticket['badge_urls'] ) > 4 ): ?>
+                                                            <img class="child-logo" src="<?php echo $ticket['badge_urls'][4]; ?>"
+                                                                 alt="Logo 5" width="95">
+												        <?php endif; ?>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    <td>
+                                </tr>
+					        <?php endif; ?>
+                            </tbody>
+                        </table>
                     </td>
                 </tr>
-                <br><br>
-                <!-- Logo -->
-				<?php if ( count( $ticket['badge_urls'] ) > 0 ): ?>
-                    <tr>
-                        <td style="vertical-align: center; text-align: center;">
-                            <table>
-                                <tr>
-                                    <td><img style="margin-left: 10px" src="<?php echo $ticket['badge_urls'][0]; ?>"
-                                             alt="Logo 3" width="110px"></td>
-                                    <td>
-                                        <div>
-											<?php if ( count( $ticket['badge_urls'] ) > 1 ): ?>
-                                                <img class="child-logo" src="<?php echo $ticket['badge_urls'][1]; ?>"
-                                                     alt="Logo 1" width="95">
-											<?php endif; ?>
-											<?php if ( count( $ticket['badge_urls'] ) > 2 ): ?>
-                                                <img class="child-logo" src="<?php echo $ticket['badge_urls'][2]; ?>"
-                                                     alt="Logo 2" width="95">
-											<?php endif; ?>
-                                        </div>
-                                        <div>
-											<?php if ( count( $ticket['badge_urls'] ) > 3 ): ?>
-                                                <img class="child-logo" src="<?php echo $ticket['badge_urls'][3]; ?>"
-                                                     alt="Logo 4" width="95">
-											<?php endif; ?>
-											<?php if ( count( $ticket['badge_urls'] ) > 4 ): ?>
-                                                <img class="child-logo" src="<?php echo $ticket['badge_urls'][4]; ?>"
-                                                     alt="Logo 5" width="95">
-											<?php endif; ?>
-                                        </div>
-                                    </td>
-                                </tr>
-                            </table>
-                        <td>
-                    </tr>
-				<?php endif; ?>
                 </tbody>
             </table>
         </td>
     </tr>
     </tbody>
 </table>
+
 <style>
     .pdf_content {
         border-collapse: collapse;
-
+        background-image: url("https://dev.seniorbarman.com/wp-content/uploads/2024/07/ticket-background.png");
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center;
     }
 
     .container {
@@ -108,7 +120,7 @@ function extractHours( $timeRange ): string {
     }
 
     .left {
-        width: 250px;
+        width: 300px;
         padding: 15px 0 15px 30px;
         text-align: center;
         vertical-align: middle;
@@ -116,7 +128,7 @@ function extractHours( $timeRange ): string {
     }
 
     .right {
-        width: 450px;
+        width: 400px;
         padding: 0;
     }
 
