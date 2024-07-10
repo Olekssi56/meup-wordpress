@@ -26,48 +26,24 @@ function extractHours( $timeRange ): string {
 		<?php for ( $i = 0; $i < $length; $i += 2 ): ?>
             <tr>
 				<?php foreach ( array_splice( $ticket_list, 0, min( 2, $length - $i ) ) as $ind => $ticket ): ?>
-                    <td style="width: 50%; border-bottom: 1px solid black; border-right: <?= ( $ind == 1 ) ? "0" : "1px" ?>  solid black; ">
+                    <td style="width: 400px; border-bottom: 1px solid black; border-right: <?= ( $ind == 1 ) ? "0" : "1px" ?>  solid black; ">
                         <table class="pdf_content">
                             <tbody>
                             <tr class="container">
                                 <!-- ticket logo and QR code -->
                                 <td class="left">
                                     <table style="border: none;">
+                                        <tbody>
                                         <!-- QR code -->
                                         <tr>
-                                            <td class="horizontal_center" colspan="2">
+                                            <td class="horizontal_center">
                                                 <barcode code="<?php echo $ticket['qrcode_str']; ?>" type="QR"
                                                          disableborder="1"
-                                                         size="1.2"/>
-                                            </td>
-                                            <td>
-                                                <div style="height: 50px; width: 100px"></div>
+                                                         size="1"/>
                                             </td>
                                         </tr>
                                         <br><br>
-                                        <tr>
-                                            <td>
-                                                <div style="height: 50px; width: 100px;"></div>
-                                            </td>
-                                            <td>
-                                                <div style="height: 50px; width: 100px;"></div>
-                                            </td>
-                                            <td>
-                                                <div style="height: 50px; width: 100px;"></div>
-                                            </td>
-                                        </tr>
-                                        <br><br>
-                                        <tr>
-                                            <td>
-                                                <div style="height: 50px; width: 100px;"></div>
-                                            </td>
-                                            <td>
-                                                <div style="height: 50px; width: 100px;"></div>
-                                            </td>
-                                            <td>
-                                                <div style="height: 50px; width: 100px;"></div>
-                                            </td>
-                                        </tr>
+                                        <br>
                                     </table>
                                 </td>
                                 <!-- ticket info -->
@@ -83,7 +59,6 @@ function extractHours( $timeRange ): string {
                                         <tr>
                                             <td class="event_name"><?php echo $ticket['event_name']; ?></td>
                                         </tr>
-                                        <br>
                                         <!-- Date and time -->
                                         <tr>
                                             <td class="date"><?php echo $ticket['date']; ?>
@@ -98,7 +73,7 @@ function extractHours( $timeRange ): string {
                                                         <tr>
                                                             <td><img style="margin-left: 10px"
                                                                      src="<?php echo $ticket['badge_urls'][0]; ?>"
-                                                                     alt="Logo 3" width="100"></td>
+                                                                     alt="Logo 3" width="90"></td>
                                                             <td>
                                                                 <div>
 																	<?php if ( count( $ticket['badge_urls'] ) > 1 ): ?>
@@ -145,22 +120,25 @@ function extractHours( $timeRange ): string {
 <style>
     .pdf_content {
         border-collapse: collapse;
+        background-image: url("https://dev.seniorbarman.com/wp-content/uploads/2024/07/ticket-background-small.png");
+        background-size: cover;
+        background-repeat: repeat;
+        background-position: left;
     }
 
     .container {
-        border: 2px solid<?php echo $ticket['color_border_ticket'] ?>;
         color: <?php echo $ticket['color_label_ticket']; ?>;
     }
 
     .left {
-        width: 40%;
+        width: 180px;
         text-align: center;
         vertical-align: middle;
-        height: 262px;
+        height: 250px;
     }
 
     .right {
-        width: 60%;
+        width: 225px;
         padding: 0;
         text-align: center;
     }
@@ -171,21 +149,21 @@ function extractHours( $timeRange ): string {
     }
 
     .price {
-        font-size: 50px;
+        font-size: 30px;
         font-weight: bold;
         text-align: center;
         color: <?php echo $ticket['color_label_ticket']; ?>;
     }
 
     .event_name {
-        font-size: 20px;
+        font-size: 18px;
         font-weight: bold;
         text-align: center;
         font-family: Arial, a, Sun-ExtA-seri, Sun-ExtA, serif;
     }
 
     .date {
-        font-size: 15px;
+        font-size: 16px;
         text-align: center;
         font-family: Arial, a, Sun-ExtA-seri, Sun-ExtA, serif;
     }

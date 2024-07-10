@@ -27,7 +27,7 @@ function extractHours( $timeRange ): string {
             <table style="border: none;">
                 <!-- QR code -->
                 <tr>
-                    <td class="horizontal_center" colspan="2">
+                    <td class="horizontal_center">
                         <barcode code="<?php echo $ticket['qrcode_str']; ?>" type="QR" disableborder="1"
                                  size="1.9"/>
                     </td>
@@ -93,10 +93,12 @@ function extractHours( $timeRange ): string {
             </table>
         </td>
     </tr>
+    </tbody>
 </table>
 <style>
     .pdf_content {
         border-collapse: collapse;
+
     }
 
     .container {
