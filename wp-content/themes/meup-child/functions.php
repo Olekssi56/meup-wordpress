@@ -57,3 +57,5 @@ function register_print_bulk_action($bulk_actions) {
 	return $bulk_actions;
 }
 add_filter('bulk_actions-edit-el_tickets', 'register_print_bulk_action'); // Change 'edit-post' to your specific screen ID if necessary
+
+add_filter( 'el_pdf_font_en', function(){ return 'Sun-ExtA'; } );

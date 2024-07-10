@@ -3,13 +3,30 @@
 $ticket_list = $args['tickets'];
 $length      = count( $ticket_list );
 ?>
+<?php
+function extractHours( $timeRange ): string {
+    // Split the time range into start and end times
+	list( $startTime, $endTime ) = explode( ' - ', $timeRange );
+
+    // Extract the hour from the start time
+	$startTimeParts = date_parse( $startTime );
+	$hour           = $startTimeParts['hour'];
+	$minute         = $startTimeParts['minute'];
+	$ampm           = ( $startTimeParts['hour'] >= 12 ) ? 'pm' : 'am';
+
+    // Format the hour in 12-hour format with am/pm
+	// Display the extracted time
+	return ( $hour % 12) . $ampm; // Outputs: 4PM
+}
+
+?>
 <div>
     <table style="">
         <tbody>
-		<?php for ( $i = 0; $i < $length; $i += 3 ): ?>
+		<?php for ( $i = 0; $i < $length; $i += 2 ): ?>
             <tr>
-				<?php foreach ( array_splice( $ticket_list, 0, min( 3, $length - $i ) ) as $ind => $ticket ): ?>
-                    <td style="width: 33%; max-width: 300px; border-bottom: 1px solid black; border-right: <?= ( $length == $i + (int) $ind + 1 || $ind == 2 ) ? "0" : "1px" ?>  solid black; ">
+				<?php foreach ( array_splice( $ticket_list, 0, min( 2, $length - $i ) ) as $ind => $ticket ): ?>
+                    <td style="width: 50%; border-bottom: 1px solid black; border-right: <?= ( $ind == 1 ) ? "0" : "1px" ?>  solid black; ">
                         <table class="pdf_content">
                             <tbody>
                             <tr class="container">
@@ -21,7 +38,7 @@ $length      = count( $ticket_list );
                                             <td class="horizontal_center" colspan="2">
                                                 <barcode code="<?php echo $ticket['qrcode_str']; ?>" type="QR"
                                                          disableborder="1"
-                                                         size="0.7"/>
+                                                         size="1.2"/>
                                             </td>
                                             <td>
                                                 <div style="height: 50px; width: 100px"></div>
@@ -59,7 +76,8 @@ $length      = count( $ticket_list );
                                         <!-- Price -->
                                         <tr>
                                             <td class="price">
-                                                N<?php echo number_format( $ticket['price_ticket'] ); ?></td>
+                                                <span>&#8358;</span><?php echo number_format( $ticket['price_ticket'] ); ?>
+                                            </td>
                                         </tr>
                                         <!-- Event name -->
                                         <tr>
@@ -69,7 +87,7 @@ $length      = count( $ticket_list );
                                         <!-- Date and time -->
                                         <tr>
                                             <td class="date"><?php echo $ticket['date']; ?>
-                                                // <?php echo $ticket['time']; ?></td>
+                                                // <?php echo extractHours($ticket['time']); ?></td>
                                         </tr>
                                         <br><br>
                                         <!-- Logo -->
@@ -80,30 +98,30 @@ $length      = count( $ticket_list );
                                                         <tr>
                                                             <td><img style="margin-left: 10px"
                                                                      src="<?php echo $ticket['badge_urls'][0]; ?>"
-                                                                     alt="Logo 3" width="90px"></td>
+                                                                     alt="Logo 3" width="100"></td>
                                                             <td>
                                                                 <div>
 																	<?php if ( count( $ticket['badge_urls'] ) > 1 ): ?>
                                                                         <img class="child-logo"
                                                                              src="<?php echo $ticket['badge_urls'][1]; ?>"
-                                                                             alt="Logo 1" width="80">
+                                                                             alt="Logo 1" width="85">
 																	<?php endif; ?>
 																	<?php if ( count( $ticket['badge_urls'] ) > 2 ): ?>
                                                                         <img class="child-logo"
                                                                              src="<?php echo $ticket['badge_urls'][2]; ?>"
-                                                                             alt="Logo 2" width="80">
+                                                                             alt="Logo 2" width="85">
 																	<?php endif; ?>
                                                                 </div>
                                                                 <div>
 																	<?php if ( count( $ticket['badge_urls'] ) > 3 ): ?>
                                                                         <img class="child-logo"
                                                                              src="<?php echo $ticket['badge_urls'][3]; ?>"
-                                                                             alt="Logo 4" width="80">
+                                                                             alt="Logo 4" width="85">
 																	<?php endif; ?>
 																	<?php if ( count( $ticket['badge_urls'] ) > 4 ): ?>
                                                                         <img class="child-logo"
                                                                              src="<?php echo $ticket['badge_urls'][4]; ?>"
-                                                                             alt="Logo 5" width="80">
+                                                                             alt="Logo 5" width="85">
 																	<?php endif; ?>
                                                                 </div>
                                                             </td>
@@ -138,7 +156,7 @@ $length      = count( $ticket_list );
         width: 40%;
         text-align: center;
         vertical-align: middle;
-        height: 300px;
+        height: 262px;
     }
 
     .right {
@@ -161,17 +179,24 @@ $length      = count( $ticket_list );
 
     .event_name {
         font-size: 20px;
+        font-weight: bold;
         text-align: center;
+        font-family: Arial, a, Sun-ExtA-seri, Sun-ExtA, serif;
     }
 
     .date {
-        font-size: 10px;
+        font-size: 15px;
         text-align: center;
+        font-family: Arial, a, Sun-ExtA-seri, Sun-ExtA, serif;
     }
 
     .child-logo {
         vertical-align: middle;
         margin: 0 10px;
+    }
+
+    span {
+        content: "\20A6";
     }
 </style>
 
